@@ -1,20 +1,68 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import SavedExpenseScreen from './screens/SavedExpenseScreen';
+import MainScreen from './screens/MainScreen';
+import AddExpenseScreen from './screens/AddExpenseScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  function AfterSigninScreen() {
+    return (
+      <Tab.Navigator>
+      <Tab.Screen
+          name="home"
+          component={MainScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+          }}
+        />
+        <Tab.Screen
+          name="saved"
+          component={SavedExpenseScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Ionicons name="heart" color={color} size={size} />,
+          }}
+        />
+        <Tab.Screen
+          name="expense"
+          component={AddExpenseScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Ionicons name="add" color={color} size={size} />,
+          }}
+        />
+        <Tab.Screen
+          name="profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
+          }}
+        />
+      </Tab.Navigator>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaProvider>
       <StatusBar style="auto" />
-    </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="signup" component={SignupScreen} />
+          <Stack.Screen name="after-signin" component={AfterSigninScreen} options={{
+            headerShown: false
+          }}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

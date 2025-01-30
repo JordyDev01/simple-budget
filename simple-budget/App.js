@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -58,6 +59,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="signup" component={SignupScreen} />
+          <Stack.Screen name='reset' component={ResetPasswordScreen} />
           <Stack.Screen name="after-signin" component={AfterSigninScreen} options={{
             headerShown: false
           }}/>

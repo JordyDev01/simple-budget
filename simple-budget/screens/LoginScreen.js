@@ -1,11 +1,16 @@
 
-import {useState} from 'react';
-import {Button, Image, StyleSheet, Text, TextInput, View, } from 'react-native';
+import {useState, useEffect} from 'react';
+import {Image, StyleSheet, TextInput, View, } from 'react-native';
 import LoginButtons from '../components/LoginButtons';
+import logo from '../assets/image/simple-budget-logo-2.webp';
 
 const LoginScreen = ({ navigation }) => {
     const [username, SetUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        navigation.setOptions({title: 'Simple Budget'})
+    }, [navigation])
     
 
     function loginHandler() {
@@ -23,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
     return(
         <View style={styles.rootScreen}>
             <View>
-                <Image style={styles.image}/>
+                <Image style={styles.image} source={logo}/>
 
                 <View style={styles.container}>
                     <TextInput 
@@ -59,11 +64,12 @@ const styles = StyleSheet.create({
     image: {
         height: '50%',
         width: '70%',
-        borderWidth: 2,
+        borderWidth: 1,
+        borderRadius: 40,
         borderColor: 'black',
         marginTop: 20,
         marginBottom: 'auto',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
 
     container: {
@@ -80,6 +86,7 @@ const styles = StyleSheet.create({
         width: '70%',
         backgroundColor: '#ffffff',
         margin: 6,
+        marginTop: 15
     },
 
 });

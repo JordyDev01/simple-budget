@@ -19,7 +19,9 @@ export default function App() {
 
   function AfterSigninScreen() {
     return (
-      <Tab.Navigator>
+      <Tab.Navigator screenOptions={{
+        animation: 'fade'
+      }}>
       <Tab.Screen
           name="home"
           component={MainScreen}
@@ -56,7 +58,9 @@ export default function App() {
     <SafeAreaProvider>
       <StatusBar style="auto" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          animation: 'fade'
+        }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="signup" component={SignupScreen} />
           <Stack.Screen name='reset' component={ResetPasswordScreen} />

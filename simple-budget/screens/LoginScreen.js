@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
 
     container: {
         backgroundColor: '#958e8e',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderWidth: 1,
     },
 
     buttonContainer: {
@@ -86,7 +87,9 @@ const styles = StyleSheet.create({
         width: '70%',
         backgroundColor: '#ffffff',
         margin: 6,
-        marginTop: 15
+        marginTop: 15,
+        borderWidth: 1,
+        borderRadius: 5,
     },
 
 });

@@ -20,7 +20,11 @@ export default function App() {
   function AfterSigninScreen() {
     return (
       <Tab.Navigator screenOptions={{
-        animation: 'fade'
+        animation: 'fade',
+        defaultNavigationOptions: {
+          headerTitleAlign: 'center',
+        }
+        
       }}>
       <Tab.Screen
           name="home"
@@ -59,7 +63,7 @@ export default function App() {
       <StatusBar style="auto" />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
-          animation: 'fade'
+          animation: 'shift'
         }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="signup" component={SignupScreen} />

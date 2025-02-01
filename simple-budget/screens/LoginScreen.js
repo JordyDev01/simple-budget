@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import {Image, StyleSheet, TextInput, View, } from 'react-native';
 import LoginButtons from '../components/LoginButtons';
 import logo from '../assets/image/simple-budget-logo-2.webp';
+import color from '../constant/Color';
 
 const LoginScreen = ({ navigation }) => {
     const [username, SetUsername] = useState('');
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     rootScreen: {
         flex: 1, 
         elevation: 4,
-        backgroundColor: '#c2c0c0',
+        backgroundColor: color.primaryColor300,
     },
 
     image: {
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        backgroundColor: '#958e8e',
+        backgroundColor: color.primaryColor500,
         alignItems: 'center',
         borderWidth: 1,
     },

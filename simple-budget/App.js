@@ -11,6 +11,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
+import color from './constant/Color';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,7 +21,12 @@ export default function App() {
   function AfterSigninScreen() {
     return (
       <Tab.Navigator screenOptions={{
-        animation: 'fade',
+        animation: 'shift',
+        headerTitleAlign: 'center',
+          headerTintColor: '#c9d2a1',
+          headerStyle: {
+            backgroundColor: '#949494',
+          }
         
       }}>
       <Tab.Screen
@@ -60,11 +66,21 @@ export default function App() {
       <StatusBar style="auto" />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
-          animation: 'shift'
+          animation: 'slide_from_bottom',
+          headerTitleAlign: 'center',
+          headerTintColor:  color.accentColor200,
+          headerStyle: {
+            backgroundColor: color.primaryColor500,
+          }
         }}>
           <Stack.Screen name="login" component={LoginScreen} />
-          <Stack.Screen name="signup" component={SignupScreen} />
-          <Stack.Screen name='reset' component={ResetPasswordScreen} />
+          <Stack.Screen name="signup" component={SignupScreen} options={{
+            title: 'create an account!',
+          }}/>
+          <Stack.Screen name='reset' component={ResetPasswordScreen} options={{
+            title: 'Reset your password!',
+
+          }}/>
           <Stack.Screen name="after-signin" component={AfterSigninScreen} options={{
             headerShown: false
           }}/>

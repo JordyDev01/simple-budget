@@ -21,9 +21,6 @@ export default function App() {
     return (
       <Tab.Navigator screenOptions={{
         animation: 'fade',
-        defaultNavigationOptions: {
-          headerTitleAlign: 'center',
-        }
         
       }}>
       <Tab.Screen

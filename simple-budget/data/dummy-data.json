@@ -13,5 +13,25 @@
         "id": "3",
         "name":"expense 3",
         "amount": "1,000,555.00$"
+    },
+    {
+        "id": "4",
+        "name": "expense 4",
+        "amount": "1,000.00$"
+    },
+    {
+        "id": "5",
+        "name":"expense 5",
+        "amount": "1,000,555.00$"
+    },
+    {
+        "id": "6",
+        "name": "expense 6",
+        "amount": "1,000.00$"
+    },
+    {
+        "id": "7",
+        "name":"expense 7",
+        "amount": "1,000,555.00$"
     }
 ]

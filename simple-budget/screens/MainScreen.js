@@ -1,8 +1,9 @@
-import {FlatList, StyleSheet, Text, View, } from 'react-native';
+import {FlatList, StyleSheet, View, } from 'react-native';
 import color from '../constant/Color';
 import FinanceOverview from '../components/FinanceOverview';
 import ExpenseItem from '../components/ExpenseItem';
 import data from '../data/dummy-data.json';
+import PotentialSavingsOverview from '../components/PotentialSavingsOverview';
 
 const MainScreen = () => {
 
@@ -14,6 +15,7 @@ const MainScreen = () => {
             <View style={styles.itemscontainer}>
                 <FlatList data={data} renderItem={({item}) => <ExpenseItem name={item.name} amount={item.amount} />} />
             </View>
+            <PotentialSavingsOverview />
         </View>
     )
 }

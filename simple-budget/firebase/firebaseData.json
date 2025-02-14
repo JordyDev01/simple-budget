@@ -1,0 +1,17 @@
+
+{
+    "profiles": {
+        "uid": 0,
+        "name": "",
+        "username": "",
+        "email": "",
+        "password": "",
+        "income": 0,
+        "expense": {
+            "label": "",
+            "name": "",
+            "amount": "",
+            "frequency": ""
+        }
+    }
+}

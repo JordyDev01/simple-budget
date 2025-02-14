@@ -12,80 +12,123 @@ import SignupScreen from './screens/SignupScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import color from './constant/Color';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
+import { Provider, useDispatch } from 'react-redux';
+import { store } from './redux/store.js';
+import { getUser } from './firebase/firebase-logics';
+import { setUser } from './redux/slice';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function App() {
-
-  function AfterSigninScreen() {
-    return (
-      <Tab.Navigator screenOptions={{
+function AfterSigninScreen() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
         animation: 'shift',
         headerTitleAlign: 'center',
-          headerTintColor: '#c9d2a1',
-          headerStyle: {
-            backgroundColor: '#949494',
-          }
-        
-      }}>
+        headerTintColor: '#c9d2a1',
+        headerStyle: { backgroundColor: '#949494' }
+      }}
+    >
       <Tab.Screen
-          name="home"
-          component={MainScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="saved"
-          component={SavedExpenseScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Ionicons name="heart" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="expense"
-          component={AddExpenseScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Ionicons name="add" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="profile"
-          component={ProfileScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
-          }}
-        />
-      </Tab.Navigator>
-    );
-  }
+        name="home"
+        component={MainScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="saved"
+        component={SavedExpenseScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="heart" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="expense"
+        component={AddExpenseScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="add" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
+function AuthHandler() {
+  const dispatch = useDispatch(); 
+  const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const storedUid = await SecureStore.getItemAsync('uid');
+        if (!storedUid) {
+          setConnected(false);
+          return;
+        }
+
+        const user = await getUser(storedUid);
+
+        if (user) {
+          dispatch(setUser({ user }));
+          setConnected(true);
+        } else {
+          setConnected(false);
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        setConnected(false);
+      }
+    };
+
+    fetchUser();
+  }, [dispatch]);
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          animation: 'slide_from_bottom',
+          headerTitleAlign: 'center',
+          headerTintColor: color.accentColor200,
+          headerStyle: { backgroundColor: color.primaryColor500 }
+        }}
+      >
+        {connected ? (
+          <Stack.Screen
+            name="after-signin"
+            component={AfterSigninScreen}
+            options={{ headerShown: false }}
+          />
+        ) : (
+          <>
+            <Stack.Screen name="login" component={LoginScreen} />
+            <Stack.Screen name="signup" component={SignupScreen} options={{ title: 'Create an account!' }} />
+            <Stack.Screen name="reset" component={ResetPasswordScreen} options={{ title: 'Reset your password!' }} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          animation: 'slide_from_bottom',
-          headerTitleAlign: 'center',
-          headerTintColor:  color.accentColor200,
-          headerStyle: {
-            backgroundColor: color.primaryColor500,
-          }
-        }}>
-          <Stack.Screen name="login" component={LoginScreen} />
-          <Stack.Screen name="signup" component={SignupScreen} options={{
-            title: 'create an account!',
-          }}/>
-          <Stack.Screen name='reset' component={ResetPasswordScreen} options={{
-            title: 'Reset your password!',
-
-          }}/>
-          <Stack.Screen name="after-signin" component={AfterSigninScreen} options={{
-            headerShown: false
-          }}/>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}> 
+        <AuthHandler /> 
+      </Provider>
     </SafeAreaProvider>
   );
 }

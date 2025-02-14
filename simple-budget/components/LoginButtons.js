@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         height: 'auto',
         width: 'auto',
+        marginBottom: 10,
     },
 
     innerContainer: {

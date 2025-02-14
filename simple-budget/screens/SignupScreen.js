@@ -1,9 +1,10 @@
-import {Alert, StyleSheet, TextInput, View, } from 'react-native'; 
+import {Alert, StyleSheet, TextInput, View, KeyboardAvoidingView, Platform} from 'react-native'; 
 import color from '../constant/Color';
 import { useState } from 'react';
 import SignupButtons from '../components/SignupButtons';
 
 const SignupScreen = ({ navigation })=> {
+    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
@@ -34,8 +35,18 @@ const SignupScreen = ({ navigation })=> {
     }
 
     return(
-        <View style={styles.rootContainer}>
+        <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' :'height'}
+        style={styles.rootContainer}>
         <View style={styles.Container}>
+
+        <TextInput 
+            style={styles.textInputLayout}
+            onChangeText={setName}
+            value={name}
+            placeholder='enter your name'
+            
+        />
 
         <TextInput 
             style={styles.textInputLayout}
@@ -79,7 +90,7 @@ const SignupScreen = ({ navigation })=> {
         <SignupButtons onCancel={onCancelHandler} onSubmit={onSubmitHandler}/>
 
         </View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 

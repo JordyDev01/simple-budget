@@ -8,12 +8,12 @@ const ExpenseItem = ({ name, amount }) => {
         <Pressable style={ ({ pressed }) => [styles.itemContainer, pressed && styles.itemPressed]}>
             <View style={styles.labelContainer}><Text style={styles.label}>Name</Text>
                     <View>
-                        <Text>{name}</Text>
+                        <Text style= {[styles.dynamicText, {color: '#ffffff'}]}>{name}</Text>
                     </View>
             </View>
             <View style={styles.labelContainer}><Text style={styles.label}>Amount</Text>
                     <View>
-                        <Text>{amount}</Text>
+                        <Text style={styles.dynamicText}>{amount}</Text>
                     </View>
             </View>
         </Pressable>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
     },
     itemPressed: {
-        opacity: 0.4
+        opacity: 0.7
     },
     labelContainer: {
         height: 'auto',
@@ -47,6 +47,11 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 22,
         color: 'white',
+        fontWeight: 'bold'
+    },
+    dynamicText: {
+        color: '#b50c0c',
+        fontSize: 18,
         fontWeight: 'bold'
     },
 

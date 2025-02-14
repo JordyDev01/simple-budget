@@ -1,9 +1,16 @@
 
 import {useState, useEffect} from 'react';
-import {Image, StyleSheet, TextInput, View, } from 'react-native';
+import {Image, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View, } from 'react-native';
 import LoginButtons from '../components/LoginButtons';
 import logo from '../assets/image/simple-budget-logo-2.webp';
 import color from '../constant/Color';
+import { database } from '../firebase/config';
+import { ref } from 'firebase/database';
+import * as SecureStore from 'expo-secure-store';
+
+
+const db = database.ref('profiles');
+
 
 const LoginScreen = ({ navigation }) => {
     const [username, SetUsername] = useState('');
@@ -27,8 +34,9 @@ const LoginScreen = ({ navigation }) => {
     }
 
     return(
-        <View style={styles.rootScreen}>
-            <View>
+        <KeyboardAvoidingView style={styles.rootScreen}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            
                 <Image style={styles.image} source={logo}/>
 
                 <View style={styles.container}>
@@ -47,8 +55,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                    <LoginButtons login={loginHandler} signup={signupHandler} resetPassword={resetPasswordHandler}/>
                 </View>
-            </View>
-        </View>
+        </KeyboardAvoidingView>
         
     )
 }
@@ -58,7 +65,6 @@ export default LoginScreen ;
 const styles = StyleSheet.create({
     rootScreen: {
         flex: 1, 
-        elevation: 4,
         backgroundColor: color.primaryColor300,
     },
 

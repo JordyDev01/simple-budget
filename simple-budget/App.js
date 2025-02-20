@@ -16,7 +16,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { Provider, useDispatch } from 'react-redux';
 import { store } from './redux/store.js';
-import { getUser } from './firebase/firebase-logics';
+import { getUser } from './firebase/firebase-logics.js';
 import { setUser } from './redux/slice';
 
 const Tab = createBottomTabNavigator();
@@ -69,7 +69,7 @@ function AuthHandler() {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const findUser = async () => {
       try {
         const storedUid = await SecureStore.getItemAsync('uid');
         if (!storedUid) {
@@ -80,7 +80,7 @@ function AuthHandler() {
         const user = await getUser(storedUid);
 
         if (user) {
-          dispatch(setUser({ user }));
+          dispatch(setUser({ user: user }));
           setConnected(true);
         } else {
           setConnected(false);
@@ -91,7 +91,7 @@ function AuthHandler() {
       }
     };
 
-    fetchUser();
+    findUser();
   }, [dispatch]);
 
   return (

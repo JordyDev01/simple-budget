@@ -1,21 +1,29 @@
-// Import Firebase SDK correctly for Expo
+import Constants from 'expo-constants';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database"; // ✅ Use firebase/database instead
+import { getDatabase } from "firebase/database";
+import { getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Firebase configuration
+// Access Firebase config from app.json through Constants.expoConfig.extra
 const firebaseConfig = {
-  apiKey: "AIzaSyBagdFL-MWLko7UdNe2lmD2oa7jqPWvHMs",
-  authDomain: "simple-budget-69a0f.firebaseapp.com",
-  databaseURL: "https://simple-budget-69a0f-default-rtdb.firebaseio.com",
-  projectId: "simple-budget-69a0f",
-  storageBucket: "simple-budget-69a0f.appspot.com",
-  messagingSenderId: "135276541625",
-  appId: "1:135276541625:web:bdfafe85e9745921cbcd68",
-  measurementId: "G-LQQBH240LH"
+  apiKey: Constants.expoConfig.extra.firebaseApiKey,
+  authDomain: Constants.expoConfig.extra.firebaseAuthDomain,
+  databaseURL: Constants.expoConfig.extra.firebaseDatabaseUrl,
+  projectId: Constants.expoConfig.extra.firebaseProjectId,
+  storageBucket: Constants.expoConfig.extra.firebaseStorageBucket,
+  messagingSenderId: Constants.expoConfig.extra.firebaseMessagingSenderId,
+  appId: Constants.expoConfig.extra.firebaseAppId,
+  measurementId: Constants.expoConfig.extra.firebaseMeasurementId
 };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const database = getDatabase(app); // ✅ Now using Firebase-compatible Database SDK
+
+// ✅ Use AsyncStorage for Authentication
+export const auth = getAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+
+// Initialize Realtime Database
+export const database = getDatabase(app);

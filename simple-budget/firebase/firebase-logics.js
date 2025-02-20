@@ -1,4 +1,4 @@
-import { ref, set} from "firebase/database";
+import { ref, set, get} from "firebase/database";
 import { database } from "./config";
 import Profile from "../model/profile";
 import { auth } from "./config";
@@ -27,7 +27,7 @@ export const createUser = async (name, username, email, password) => {
 
 export const getUser = async (uid) => {
     try {
-      const userRef = ref(database, `users/${uid}`);
+      const userRef = ref(database, `${uid}`);
       const snapshot = await get(userRef);
   
       if (snapshot.exists()) {
@@ -39,7 +39,7 @@ export const getUser = async (uid) => {
         return null;
       }
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.log("Error fetching user:", error);
       return `Error fetching user: ${error.message}`;
     }
   };

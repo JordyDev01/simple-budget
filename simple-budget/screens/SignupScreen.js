@@ -2,6 +2,12 @@ import {Alert, StyleSheet, TextInput, View, KeyboardAvoidingView, Platform} from
 import color from '../constant/Color';
 import { useState } from 'react';
 import SignupButtons from '../components/SignupButtons';
+import { auth } from '../firebase/config';
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import * as SecureStore from 'expo-secure-store';
+
+
+
 
 const SignupScreen = ({ navigation })=> {
     const [name, setName] = useState('');
@@ -30,8 +36,13 @@ const SignupScreen = ({ navigation })=> {
     }
 
     function onSubmitHandler() {
-        console.log('Sign up submit button');
-        navigation.pop();
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            SecureStore.setItem('uid', userCredential.uid)
+        })
+        .catch((err) => Alert.alert('error', `${err}`, [{
+            text: 'ok',
+        }]))
     }
 
     return(

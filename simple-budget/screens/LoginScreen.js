@@ -3,8 +3,7 @@ import { Image, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } fr
 import LoginButtons from '../components/LoginButtons';
 import logo from '../assets/image/simple-budget-logo-2.webp';
 import color from '../constant/Color';
-import { ref } from 'firebase/database';
-import { auth, database } from '../firebase/config';
+import { auth } from '../firebase/config';
 import * as SecureStore from 'expo-secure-store';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -13,9 +12,6 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-
-  const db = database;
-  const profilesRef = ref(db, 'profiles');
 
   useEffect(() => {
     navigation.setOptions({ title: 'Simple Budget' });
@@ -26,10 +22,9 @@ const LoginScreen = ({ navigation }) => {
     try {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            userCredential.user.getIdToken()
-            .then((idToken) => {
-                SecureStore.setItemAsync('uid', idToken);
-            })
+             SecureStore.setItemAsync('uid', userCredential.user.uid)
+             .then(() => console.log(`uid stored`))
+             .catch(() => console.log(`failed to store uid`))
         })
         .catch((err) => {
             console.log(`error: ${err.message}`);

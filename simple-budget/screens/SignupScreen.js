@@ -5,6 +5,7 @@ import SignupButtons from '../components/SignupButtons';
 import { auth } from '../firebase/config';
 import {  createUserWithEmailAndPassword } from "firebase/auth";
 import * as SecureStore from 'expo-secure-store';
+import { createUser } from '../firebase/firebase-logics';
 
 
 
@@ -38,7 +39,10 @@ const SignupScreen = ({ navigation })=> {
     function onSubmitHandler() {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            SecureStore.setItem('uid', userCredential.uid)
+            createUser(name, username, email, userCredential.user.uid);
+            SecureStore.setItemAsync('uid', userCredential.user.uid)
+            .then(()=> console.log(`uid saved`))
+            .catch(() => console.log(`uid not saved`))
         })
         .catch((err) => Alert.alert('error', `${err}`, [{
             text: 'ok',

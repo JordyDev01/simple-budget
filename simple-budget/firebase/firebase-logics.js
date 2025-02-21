@@ -1,46 +1,48 @@
 import { ref, set, get} from "firebase/database";
 import { database } from "./config";
 import Profile from "../model/profile";
-import { auth } from "./config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export const createUser = async (name, username, email, password) => {
+export const createUser = async (name, username, email, uid) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    console.log("User created:", user);
-
-    const newProfile = new Profile(name, username, email, income, {});
+    const newProfile = new Profile(name, username, email);
 
   
-    const userRef = ref(database, `users/${user.uid}`); 
+    const userRef = ref(database, `profiles/${uid}`); 
     await set(userRef, newProfile);
 
     return newProfile;
   } catch (error) {
-    console.error("Error creating user:", error);
+    console.log("Error creating user:", error);
     return `Error creating user: ${error.message}`;
   }
 };
 
 
 export const getUser = async (uid) => {
+    console.log(`uid received: ${uid}`)
     try {
-      const userRef = ref(database, `${uid}`);
+      const userRef = ref(database, `profiles`);
       const snapshot = await get(userRef);
   
       if (snapshot.exists()) {
-        const user = snapshot.val();
-        console.log(`User found: ${user.name}`);
-        return user;
+        console.log(`list of user: ${JSON.stringify(snapshot.val())}`)
+        const listUser = Object.entries(snapshot.val());
+        console.log(`list user after passing to variable: ${JSON.stringify(listUser)}`)
+        const user = listUser.filter((useruid) => useruid[0] === uid)
+        if (user) {
+            console.log(`User found: ${JSON.stringify(user)}`);
+            return user;
+        }
+            else {
+                return null
+            }
       } else {
         console.log(`No user found with UID: ${uid}`);
         return null;
       }
     } catch (error) {
       console.log("Error fetching user:", error);
-      return `Error fetching user: ${error.message}`;
+      return null
     }
   };
   

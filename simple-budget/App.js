@@ -67,32 +67,43 @@ function AfterSigninScreen() {
 function AuthHandler() {
   const dispatch = useDispatch(); 
   const [connected, setConnected] = useState(false);
+  const [uid, setUid] = useState(null);
 
-  useEffect(() => {
-    const findUser = async () => {
+  useEffect(()=> {
+    const checkSecureStore = async () => {
       try {
-        const storedUid = await SecureStore.getItemAsync('uid');
-        if (!storedUid) {
-          setConnected(false);
-          return;
+        const storedUid = await SecureStore.getItemAsync('uid')
+        if (storedUid) {
+          setUid(storedUid)
         }
-
-        const user = await getUser(storedUid);
-
-        if (user) {
-          dispatch(setUser({ user: user }));
-          setConnected(true);
-        } else {
-          setConnected(false);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        setConnected(false);
+      }catch(err) {
+        console.log(`error: ${err.message}`)
       }
-    };
+    }
+    checkSecureStore();
+  }, [])
 
-    findUser();
-  }, [dispatch]);
+  useEffect(()=>{
+
+    const fetchUser = async () => {
+      try {
+        if (uid) {
+          setConnected(true)
+          const user = await getUser(uid)
+          dispatch(setUser({
+            user: user
+          }))
+        }
+        else {
+          setConnected(false)
+        }
+      } catch(err){
+        console.log(`error: ${err.message}`)
+      }
+    }
+    fetchUser();
+    
+  }, [uid])
 
   return (
     <NavigationContainer>

@@ -12,9 +12,8 @@ I will create a simple budget app with React Native and one of the main function
 - show potential savings
 - Add expenses.
 - Remove expenses.
-- Save current details throught a RESTful API.
+- Save current details throught firebase real-time database 
 
-I will create my own RESTful API with Node.js and Express.js. The database will be MySQL which I will handle with Sequelize.
 
 I have uploaded the main screen image (simple-budget-main-page.png) after the sign in to have a better picture on how we will design the UI. 
 

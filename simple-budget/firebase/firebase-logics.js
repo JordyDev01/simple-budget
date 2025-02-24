@@ -1,6 +1,7 @@
 import { ref, set, get} from "firebase/database";
 import { database } from "./config";
 import Profile from "../model/profile";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const createUser = async (name, username, email, uid) => {
   try {
@@ -9,11 +10,8 @@ export const createUser = async (name, username, email, uid) => {
   
     const userRef = ref(database, `profiles/${uid}`); 
     await set(userRef, newProfile);
-
-    return newProfile;
   } catch (error) {
     console.log("Error creating user:", error);
-    return `Error creating user: ${error.message}`;
   }
 };
 
@@ -46,3 +44,6 @@ export const getUser = async (uid) => {
     }
   };
   
+  export const autoSignin = (auth, email, password) => {
+    return signInWithEmailAndPassword(auth, email, password)
+  }

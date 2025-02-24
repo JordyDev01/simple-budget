@@ -10,13 +10,13 @@ const FinanceOverview = () => {
                 
 
                 <View style={styles.box}>
-                    <Text style={styles.textHeader}>Income</Text>
-                    <View style={styles.innerBottomBox}><Text style={[styles.textFinance, {color: '#00b03b',}]}>1,000.000$</Text></View>
+                    <Text style={styles.textHeader}>Budget</Text>
+                    <View style={styles.innerBottomBox}><Text style={[styles.textFinance, {color: '#fbfdfc',}]}>1,000.000$</Text></View>
                 </View>
 
                 <View style={styles.box}>
-                    <Text style={styles.textHeader}>expenses</Text>
-                    <View style={styles.innerBottomBox}><Text style={[styles.textFinance, {color: '#dc6565'}]}>- 1,000.00$</Text></View>
+                    <Text style={styles.textHeader}>Remaining</Text>
+                    <View style={styles.innerBottomBox}><Text style={[styles.textFinance, {color: '#e4e133'}]}>- 1,000.00$</Text></View>
                 </View>
 
             </View>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     outerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: color.accentColor200,
+        backgroundColor: '#35970b',
         borderWidth: 2,
         borderRadius: 7,
         borderColor: color.primaryColor500,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         fontWeight: 'bold',
-        color: 'white',
+        color: '#ffffff',
         fontSize: 30,
     },
     textFinance: {

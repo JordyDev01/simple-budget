@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SavedExpenseScreen from './screens/SavedExpenseScreen';
 import MainScreen from './screens/MainScreen';
 import AddExpenseScreen from './screens/AddExpenseScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -12,12 +11,10 @@ import SignupScreen from './screens/SignupScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import color from './constant/Color';
-import * as SecureStore from 'expo-secure-store';
-import { useEffect, useState } from 'react';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { store } from './redux/store.js';
-import { getUser } from './firebase/firebase-logics.js';
-import { setUser } from './redux/slice';
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,13 +37,6 @@ function AfterSigninScreen() {
         }}
       />
       <Tab.Screen
-        name="saved"
-        component={SavedExpenseScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="heart" color={color} size={size} />,
-        }}
-      />
-      <Tab.Screen
         name="expense"
         component={AddExpenseScreen}
         options={{
@@ -65,45 +55,10 @@ function AfterSigninScreen() {
 }
 
 function AuthHandler() {
-  const dispatch = useDispatch(); 
-  const [connected, setConnected] = useState(false);
-  const [uid, setUid] = useState(null);
+  
+  const selectedUser = useSelector((state) => state.user.user);
+  console.log(`selected user? ${selectedUser}`)
 
-  useEffect(()=> {
-    const checkSecureStore = async () => {
-      try {
-        const storedUid = await SecureStore.getItemAsync('uid')
-        if (storedUid) {
-          setUid(storedUid)
-        }
-      }catch(err) {
-        console.log(`error: ${err.message}`)
-      }
-    }
-    checkSecureStore();
-  }, [])
-
-  useEffect(()=>{
-
-    const fetchUser = async () => {
-      try {
-        if (uid) {
-          setConnected(true)
-          const user = await getUser(uid)
-          dispatch(setUser({
-            user: user
-          }))
-        }
-        else {
-          setConnected(false)
-        }
-      } catch(err){
-        console.log(`error: ${err.message}`)
-      }
-    }
-    fetchUser();
-    
-  }, [uid])
 
   return (
     <NavigationContainer>
@@ -115,7 +70,7 @@ function AuthHandler() {
           headerStyle: { backgroundColor: color.primaryColor500 }
         }}
       >
-        {connected ? (
+        {selectedUser ? (
           <Stack.Screen
             name="after-signin"
             component={AfterSigninScreen}

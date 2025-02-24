@@ -19,17 +19,17 @@ export default PotentialSavingsOverview;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
+        height: '5%',
         width: '90%',
         margin: 8,
-        backgroundColor: '#52893a',
+        backgroundColor: '#3fb60c',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderRadius: 5,
+        borderRadius: 10,
     },
     containerPressed: {
-        opacity: 0.3
+        opacity: 0.4
     },
     innerContainer: {
         margin: 5

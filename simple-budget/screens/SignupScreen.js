@@ -37,17 +37,37 @@ const SignupScreen = ({ navigation })=> {
     }
 
     function onSubmitHandler() {
+        if (email !== confirmEmail) {
+            return Alert.alert('Error', 'Emails do not match', [{ text: 'OK' }]);
+        }
+        if (password !== confirmPassword) {
+            return Alert.alert('Error', 'Passwords do not match', [{ text: 'OK' }]);
+        }
+        if (password.length < 6) {
+            return Alert.alert('Error', 'Password must be at least 6 characters long', [{ text: 'OK' }]);
+        }
+    
         createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            createUser(name, username, email, userCredential.user.uid);
-            SecureStore.setItemAsync('uid', userCredential.user.uid)
-            .then(()=> console.log(`uid saved`))
-            .catch(() => console.log(`uid not saved`))
-        })
-        .catch((err) => Alert.alert('error', `${err}`, [{
-            text: 'ok',
-        }]))
+            .then((userCredential) => {
+                // After signing up, save user data to the database
+                createUser(name, username, email, userCredential.user.uid);
+                // Store user UID securely
+                SecureStore.setItemAsync('uid', userCredential.user.uid)
+                    .then(() => {
+                        console.log('UID saved');
+                    })
+                    .catch((error) => {
+                        console.log('Error saving UID:', error.message);
+                    });
+    
+                console.log('User signed up successfully');
+                // Optionally, navigate to a different screen after successful signup
+            })
+            .catch((err) => {
+                Alert.alert('Error', err.message, [{ text: 'OK' }]);
+            });
     }
+    
 
     return(
         <KeyboardAvoidingView 

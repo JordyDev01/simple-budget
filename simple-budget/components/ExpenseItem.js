@@ -1,22 +1,24 @@
 import { Pressable, StyleSheet, Text, View, } from "react-native";
-import color from "../constant/Color";
+
 
 const ExpenseItem = ({ name, amount }) => {
 
 
     return (
-        <Pressable style={ ({ pressed }) => [styles.itemContainer, pressed && styles.itemPressed]}>
+      
+        <Pressable style={ ({ pressed }) => [styles.itemContainer, pressed && styles.itemPressed]} andr>
             <View style={styles.labelContainer}><Text style={styles.label}>Name</Text>
                     <View>
-                        <Text style= {[styles.dynamicText, {color: '#ffffff'}]}>{name}</Text>
+                        <Text style= {[styles.dynamicText, {color: '#665656'}]}>{name}</Text>
                     </View>
             </View>
             <View style={styles.labelContainer}><Text style={styles.label}>Amount</Text>
                     <View>
-                        <Text style={styles.dynamicText}>{amount}</Text>
+                        <Text style={styles.dynamicText}>-{amount}</Text>
                     </View>
             </View>
         </Pressable>
+        
     )
 }
 
@@ -26,12 +28,17 @@ const styles = StyleSheet.create({
     itemContainer: {
     flexDirection: 'row',
         height: 'auto',
-        width: 'auto',
-        margin: 8,
-        justifyContent: 'space-evenly',
-        backgroundColor: color.accentColor200,
-        borderWidth: 1,
+        width: '90%',
+        margin: 3,
+        justifyContent: 'space-between',
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderWidth: 0,
         borderRadius: 10,
+        shadowColor: 'black',
+        shadowOffset: {height: 5, width: 0},
+        shadowOpacity: 0.5,
+        elevation: 15
 
     },
     itemPressed: {
@@ -46,7 +53,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 22,
-        color: 'white',
+        color: '#687c86',
         fontWeight: 'bold'
     },
     dynamicText: {
